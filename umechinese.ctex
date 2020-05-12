@@ -1,0 +1,27 @@
+% Typescript for Ume Mincho Chinese Truetype font
+
+\starttypescriptcollection[ume-chinese]
+
+    \starttypescript [serif] [umechinese]
+        \definefontsynonym [UmeMincho]      [name:ume-tmo3] [features=chinese]
+        \definefontsynonym [STKaiti]        [name:stkaiti] [features=chinese]
+    \stoptypescript
+
+    \starttypescript [serif] [umechinese]
+        \usetypescript[serif][fallback]
+        \definefontsynonym [Serif]       [UmeMincho]      [features=chinese]
+    \stoptypescript
+
+    \starttypescript [sans] [umechinese]
+        \setups[font:fallback:sans]
+        \definefontsynonym [Sans] [STKaiti] [features=chinese]
+    \stoptypescript
+
+    \starttypescript[umechinese]
+        \definetypeface [umechinese] [rm] [serif] [umechinese] [default]
+        \definetypeface [umechinese] [ss] [sans]  [umechinese] [default]
+        \definetypeface [umechinese] [mm] [math]  [pagella]
+        \definetypeface [umechinese] [tt] [mono]  [modern]
+    \stoptypescript
+
+\stoptypescriptcollection

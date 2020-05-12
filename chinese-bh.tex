@@ -1,0 +1,57 @@
+% Figures folder and order of loading
+\setupbackend
+  [format=PDF/X-1a:2001,
+   intent=ISOuncoated.icc] %
+
+\setupcolors[cmyk=yes]
+\setupcolor[hex]
+
+% color of title
+\definecolor [goldenlight][h=ed932f]
+
+% Language
+\mainlanguage[cn]
+\language[cn]
+\setscript[hanzi] % hyphenation
+
+% Fonts
+\input umechinese.ctex
+\setupbodyfont [umechinese,12pt]
+\usebodyfont   [umechinese-light,12pt]
+
+\setuppagenumbering[state=stop]
+
+% Cropmarks
+\setuplayout[marking=color]
+\setuplayout[location={middle,middle}] % cropmarks centered
+%\showframe
+
+% Definição do tamanho da página aberta da capa
+\definepapersize[Capa][width=48pt,height=14pt]
+\setuppapersize [Capa][Capa] % nocropmarks
+
+\setupindenting[no]
+
+\setuplayout[alternative=yes,
+topspace=0cm,
+header=0pt,
+headerdistance=0pt,
+backspace=0cm,
+textheight=45pt,
+width=110pt,
+margin=0pt,
+bottomspace=0pt,
+footer=0pt,
+footerdistance=0pt,
+height=middle,
+width=middle]
+
+\starttext
+
+\doifmodeelse {golden} {
+  \midaligned{\goldenlight 人間佛教}
+} {
+  \midaligned{人間佛教}
+}
+
+\stoptext

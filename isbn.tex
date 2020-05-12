@@ -1,0 +1,43 @@
+\setupexternalfigures[order={pdf,eps,png,jpg},location=global,directory={images}]
+\setupbackend
+  [format=format=PDF/X-4p, % mandatory if you use transparent png
+   intent=ISOuncoated.icc]
+
+\setupinteraction[title={ISBN 978-85-69862-02-4}]
+
+\input type-mixed-minion-optima.tex
+\usetypescript[MinionOptima]
+\setupbodyfont[MinionOptima,8.1pt]
+\definepapersize[isbn-size][width=3.4cm,height=2.35cm]
+\setuppapersize [isbn-size][isbn-size]
+
+\setuplayout[alternative=yes,
+topspace=0cm,
+header=0pt,
+headerdistance=0pt,
+backspace=0cm,
+textheight=2.4cm,
+width=3.6cm,
+margin=0pt,
+bottomspace=0pt,
+footer=0pt,
+footerdistance=0pt,
+height=middle,
+width=middle]
+
+% nopagenumber
+\startsectionblockenvironment[bodypart]
+\setuppagenumbering[state=stop]
+\setuppagenumbering[location=]
+\stopsectionblockenvironment
+
+\useexternalfigure[book-isbn][isbn-9788569862024.pdf][width=3.1cm]
+\setupindenting[yes,10.4pt]
+\starttext
+\startbodymatter
+
+\framed[frame=off,width={\textwidth},background=color,backgroundcolor=white,align=middle]{\hskip6.2pt{\sc ISBN 978-85-69862-02-4}\\
+\midaligned{\externalfigure[book-isbn]}}
+
+\stopbodymatter
+\stoptext

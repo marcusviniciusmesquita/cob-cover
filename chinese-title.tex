@@ -1,0 +1,57 @@
+% Figures folder and order of loading
+\setupbackend
+  [format=format=PDF/X-4p,
+   intent=ISOuncoated.icc] %
+
+\setupcolors[cmyk=yes]
+\setupcolor[hex]
+
+% define cmyk colors
+\definecolor [golden][c=0, m=0.53, y=0.96, k=0.07] % color of title
+%\definecolor [goldenlight][c=0, m=0.38, y=0.80, k=0.07]
+
+
+% Language
+\mainlanguage[cn]
+\language[cn]
+\setscript[hanzi] % hyphenation
+
+% Fonts
+\input umechinese.ctex
+\setupbodyfont [umechinese,12pt]
+\usebodyfont   [umechinese-light,12pt]
+
+\setuppagenumbering[state=stop]
+
+% Cropmarks
+\setuplayout[marking=color]
+\setuplayout[location={middle,middle}] % cropmarks centered
+
+% figure size
+\definepapersize[figuresize][width=120pt,height=15pt]
+\setuppapersize [figuresize][figuresize] % nocropmarks
+
+\setupindenting[no]
+
+\setuplayout[alternative=yes,
+topspace=0cm,
+header=0pt,
+headerdistance=0pt,
+backspace=0cm,
+textheight=45pt,
+width=110pt,
+margin=0pt,
+bottomspace=0pt,
+footer=0pt,
+footerdistance=0pt,
+height=middle,
+width=middle]
+
+\starttext
+\doifmodeelse {golden} {
+  \rightaligned{\golden 人間佛教的經證}
+} {
+  \rightaligned{人間佛教的經證}
+}
+
+\stoptext

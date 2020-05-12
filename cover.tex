@@ -1,0 +1,336 @@
+% Flexible cover with flaps for the book “Cultivando o bem”
+%\showframe
+
+% Figures folder and order of loading
+\setupexternalfigures[order={pdf,eps,png,jpg},location=global,directory={images}]
+
+\setupbackend
+  [format=format=PDF/X-4p, % mandatory if you use transparent png
+   intent=ISOuncoated.icc]
+
+\setupcolors[cmyk=yes]
+\setupcolor[hex]
+
+% define cmyk colors
+\definecolor [golden][c=0, m=0.53, y=0.96, k=0.07]
+\definecolor [goldenlight][c=0, m=0.38, y=0.80, k=0.07]
+\definecolor [blackcover][c=0, m=0, y=0, k=0.98]
+
+\doifmode {varnish}{
+  \definecolor [golden][black]
+  \definecolor [goldenlight][black]
+}
+
+% main language used in cover: portuguese
+
+\installlanguage
+  [pt]
+  [spacing=packed,
+   lefthyphenmin=2,
+   righthyphenmin=3,
+   state=\stop]
+
+% Hyphen in portuguese: repeated next line if the word already has one;
+% mandatory after the “acordo ortográfico da língua portuguesa” (aolp) of 1990
+\definebreakpoints[aolp]
+\definebreakpoint [aolp] [-] [type=5,left=-,right=-,middle=-]
+\setbreakpoints[aolp]
+
+\enabledirectives[characters.spaceafteruppercase=normal]
+
+\mainlanguage[pt]
+
+% Cropmarks
+\setuplayout[marking=color]
+\setuplayout[location={middle,middle}] % cropmarks centered
+
+% cover size (spread)
+\definepapersize[cover][width=522mm,height=226mm]
+\definepapersize[coverouter][width=550mm,height=270mm]
+\setuppapersize [cover][coverouter] % cropmarks
+
+% layout
+\setuplayout[alternative=yes,
+topspace=0pt,
+header=0pt,
+headerdistance=0pt,
+backspace=0pt,
+margin=0pt,
+margindistance=0pt,
+edge=0pt,
+height=226mm,
+width=522mm,
+bottomspace=0pt,
+footer=0pt,
+footerdistance=0pt,
+height=middle,
+width=middle]
+
+\definesymbol[envelope][\getglyphdirect{FontAwesome}{\number"F003}]
+\definesymbol[phone][\getglyphdirect{FontAwesome}{\number"F095}]
+\definesymbol[web][\getnamedglyphdirect{modernpics}{w}]
+
+% Family typeface
+% Type family
+\setupfontexpansion [quality][stretch=5,shrink=5,step=0.05,factor=1]
+\definefontfeature[default][default][script=latn, protrusion=ptbr, expansion=quality, itlc=yes, textitalics=yes, onum=yes, pnum=yes]
+\definefontfeature[smallcaps][script=latn, protrusion=ptbr, expansion=quality, smcp=yes, onum=yes, pnum=yes]
+
+\input type-mixed-minion-optima.tex
+\usetypescript[MinionOptima]
+\setupbodyfont[MinionOptima,14.4pt]
+
+% core style
+\setupalign[hz,hanging]
+\setupitaliccorrection[global, always]
+\setupbodyfontenvironment[default][em=italic] % use italic as em, not slanted
+
+\definefont[seriestitlefont][SansCaps*default at 12pt]
+\definefont[authorfont][SansCaps*default at 25pt]
+\definefont[titlefont][SansBoldCaps*default at 34.1pt]
+\definefont[subtitlefont][SansCaps*default at 16.5pt]
+\definefont[honorarytitlefont][SansCaps*default at 12pt]
+\definefont[spinehonorarytitlefont][SansCaps*default at 17.2pt]
+\definefont[authorspinefont][SansCaps*default at 21pt]
+\definefont[titlespinefont][SansCaps*default at 25pt]
+
+% create background with 3mm bleed
+\startuseMPgraphic{background-cover}
+   StartPage ;
+     fill (Page enlarged (3mm)) withcolor \MPcolor{blackcover} ;
+   StopPage ;
+\stopuseMPgraphic
+
+\defineoverlay[cover][\useMPgraphic{background-cover}]
+
+\definelayer[titaut] % name of the layer
+[x=0mm, y=0mm, % from upper left corner of paper
+width=\paperwidth,height=\paperheight,preset=middle]
+
+\definelayer[qrcode]
+[x=0mm, y=0mm, % from upper left corner of paper
+width=1cm,height=1cm]
+
+\definelayer[logospine] % name of the layer
+[x=0mm, y=0mm, % from upper left corner of paper
+width=1cm,height=1cm]
+
+\definelayer[author]
+[x=0mm, y=0mm,
+width=\paperwidth,height=\paperheight,preset=middle]
+
+\definelayer[logocover] % name of the layer
+[x=0mm, y=0mm, % from upper left corner of paper
+width=2cm,height=2cm]
+
+\definelayer[isbn] % name of the layer
+[x=0mm, y=0mm, % from upper left corner of paper
+width=5cm,height=5cm,preset=middle]
+
+\definelayer[zulai]
+[x=0mm, y=0mm,
+width=5cm,height=5cm,preset=middle]
+
+% Figures
+% Author portrait
+\useexternalfigure[author-portrait][hsing][width=12cm]
+
+% Blia logo
+\doifmodeelse {varnish}{
+  \useexternalfigure[bliasymbol][logoblia][width=1.6cm]
+} {
+  \useexternalfigure[bliasymbol][logoblia-golden][width=1.6cm]
+}
+
+% Chinese title
+\doifmodeelse {varnish}{
+  \useexternalfigure[chinesetitle][chinese-title][factor=19]
+} {
+  \useexternalfigure[chinesetitle][chinese-title-golden][factor=19]
+}
+
+% Chinese series title
+\doifmodeelse {varnish}{
+  \useexternalfigure[humanist-buddhism][chinese-bh][factor=10]
+} {
+  \useexternalfigure[humanist-buddhism][chinese-bh-golden][factor=10]
+}
+
+% Logo used in backcover
+\doifmodeelse {varnish}{
+  \useexternalfigure[zulai-temple][logozulai][width=5cm]
+} {
+  \useexternalfigure[zulai-temple][logozulai-golden][width=5cm]
+}
+
+% qrcode used in backcover
+\useexternalfigure[zu-lai-qrcode][zulaiqrcode][width=2.8cm]
+
+% Blia logo used in spine
+\doifmodeelse {varnish}{
+  \useexternalfigure[bliaspine][logoblia][width=1cm]
+} {
+  \useexternalfigure[bliaspine][logoblia-golden][width=1cm]
+}
+
+% Blia logo used in cover
+\doifmodeelse {varnish}{
+  \useexternalfigure[blia-cover][logoblia][width=1.6cm]
+} {
+  \useexternalfigure[blia-cover][logoblia-golden][width=1.6cm]
+}
+
+% ISBN used in backcover
+\useexternalfigure[isbn][isbn][width=3.6cm]
+
+% Set layers for placing figures and spine text
+
+\setlayer[titaut]
+[hoffset=0cm, voffset=-0.4cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=1.1cm, height=226mm]{\rotate[rotation=-90.0]%
+{\golden\spinehonorarytitlefont venerável mestre \authorspinefont Hsing Yün \hskip 1cm \titlespinefont CULTIVANDO O BEM \hskip 2cm}}}
+
+\setlayer[logospine]
+[hoffset=25.55cm, voffset=20.75cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=1.1cm, height=1.3cm]
+{\externalfigure[bliaspine]}}
+
+\doifnotmode {varnish} {
+\setlayer[author]
+[hoffset=207pt, voffset=95pt] % placement (from upper left corner of the layer)
+{\externalfigure[author-portrait]}}
+
+\setlayer[logocover]
+[hoffset=39.92cm, voffset=20cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=2cm, height=2cm]
+{\externalfigure[blia-cover]}}
+
+\doifnotmode {varnish} {%
+\setlayer[qrcode]
+[hoffset=11cm, voffset=20cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=1.1cm, height=1.3cm]
+{\externalfigure[zu-lai-qrcode]}}}
+
+\doifnotmode {varnish} {%
+\setlayer[isbn] %
+[hoffset=20.2cm, voffset=18.3cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=4cm, height=4cm]
+{\externalfigure[isbn]}}}
+
+\setlayer[zulai] %
+[hoffset=15.3cm, voffset=12.3cm] % placement (from upper left corner of the layer)
+{\framed[frame=off, width=6cm, height=6cm]
+{\externalfigure[zulai-temple]}}
+
+
+%Activate layers, omit cover layer if output is cover-varnish file
+
+\doifmodeelse {varnish}{
+  \setupbackgrounds[page][background={author,logospine,titaut,logocover,zulai,qrcode,isbn}]
+} {
+  \setupbackgrounds[page][background={cover,author,logospine,titaut,logocover,zulai,qrcode,isbn}]
+}
+
+
+% read texts to be placed on the cover
+\input text-buffers.tex
+
+
+% ****************************************
+\starttext
+
+% we divide the cover in five columns [back flap, backcover, spine, frontcover, front flap]
+
+\defineparagraphs
+  [FiveColumns]
+  [n=5,
+   rule=off,
+   top={\strut},
+   inner={\setupwhitespace[line]},
+   color=goldenlight]
+
+\setupparagraphs[FiveColumns][each][style=normal,align={hz,hanging},tolerance={{horizontal,tolerant,stretch},{vertical,tolerant}}]
+
+% measures of flaps, cover & backcover, spine
+% each flap: 10cm; cover & backcover: 15.5cm; spine: 1.2cm
+% back flap
+\setupparagraphs[FiveColumns][1][width=10cm]
+% spine width
+\setupparagraphs[FiveColumns][3][width=1.2cm]
+% front flap width
+\setupparagraphs[FiveColumns][5][width=10cm]
+\setupparagraphs[FiveColumns][align=normal]
+\setupinterlinespace[line=14.4pt]
+
+
+\startFiveColumns
+% Column 1 - back flap
+\doifnotmode{varnish}{
+   \startnarrower[16pt,10pt]\setupinterlinespace[line=18pt]
+   \getbuffer[back-flap]
+   \stopnarrower
+}
+
+% *************************************************************************************
+
+% Column 2 - backcover
+\FiveColumns
+\doifnotmode {varnish} {
+\startnarrower[21pt,21pt]\setupinterlinespace[line=17pt]
+\getbuffer[backcover-text]
+\stopnarrower
+\blank[128pt]
+\startalignment[center]
+\getbuffer[backcover-institution]
+\stopalignment
+}
+
+% *************************************************************************************
+
+% Column 3 - spine
+\FiveColumns
+% no text here, we add it via overlay for more positioning control
+
+% *************************************************************************************
+
+% Column 4 - frontcover
+\FiveColumns\setupwhitespace[0pt]
+\blank[force,14pt]
+
+\midaligned{\seriestitlefont\getbuffer[book-series]}
+\midaligned{\externalfigure[humanist-buddhism]}
+
+\startalignment[left]
+\honorarytitlefont\getbuffer[honorary-title]\kern3pt
+
+\blank[6pt]
+
+\authorfont\getbuffer[author]
+
+\blank[10pt]
+
+\titlefont\golden\getbuffer[book-title]
+
+\blank[9pt]
+
+\goldenlight\subtitlefont\getbuffer[book-subtitle]\kern5.5pt
+
+\blank[line]
+
+\hfill\externalfigure[chinesetitle]\ \kern5.5pt
+\stopalignment
+
+% *************************************************************************************
+
+% Coluna 5 - front flap
+
+\FiveColumns
+\doifnotmode {varnish}{
+   \startnarrower[16pt,10pt]\setupinterlinespace[line=17pt]
+   \getbuffer[front-flap]
+   \stopnarrower
+}
+
+\stopFiveColumns
+
+\stoptext

@@ -1,0 +1,69 @@
+% Enable Capital Letter use
+\setupcapitals[sc=yes]
+% Protude hyphens to the left.
+\startluacode
+
+local classes = fonts.protrusions.classes
+local vectors = fonts.protrusions.vectors
+
+classes.ptbr = {
+    vector = 'ptbr',
+    factor = 1,
+}
+
+vectors.ptbr = table.merged (vectors.quality, {
+    [0x2018] = { 1, 1 }, -- left single quotation mark             ‘
+    [0x2019] = { 0, 1 }, -- right single quotation mark            ’
+    [0x201C] = { 1, 1 }, -- left double quotation mark             “
+    [0x201D] = { 0, 1 }, -- right double quotation mark            ”
+    [0x002D] = { 1, 1 }, -- hyphen
+    [0x00AD] = { 1, 1 }, -- also hyphen
+    [0x2013] = { 0.3, 0.30 }, -- endash
+    [0x2014] = { 0.2, 0.20 }, -- emdash
+})
+
+\stopluacode
+
+\starttypescriptcollection[minion-optima]
+    \starttypescript [serif] [minion-optima]
+       \setups[font:fallback:serif]
+       \definefontsynonym [MinionPro-Regular]    [file:MinionPro-Regular.otf]
+       \definefontsynonym [MinionPro-Bold]       [file:MinionPro-Bold.otf]
+       \definefontsynonym [MinionPro-Italic]     [file:MinionPro-Italic.otf]
+       \definefontsynonym [MinionPro-BoldItalic] [file:MinionPro-BoldIt.otf]
+    \stoptypescript
+
+    \starttypescript [serif] [minion-optima]
+       \definefontsynonym [Serif]           [MinionPro-Regular]        [features={default,kerning}]
+       \definefontsynonym [SerifBold]       [MinionPro-Bold]           [features=default]
+       \definefontsynonym [SerifItalic]     [MinionPro-Italic]         [features=default]
+       \definefontsynonym [SerifBoldItalic] [MinionPro-BoldItalic]     [features=default]
+       \definefontsynonym [SerifCaps]       [Serif]                    [features={default,smallcaps,c2sc}]
+    \stoptypescript
+
+    \starttypescript [sans][minion-optima]
+      \definefontsynonym [OptimaRoman]                [file:OptimaNovaLT-Regular]
+      \definefontsynonym [OptimaRomanCaps]            [file:OptimaNovaLT-RegularSC]
+      \definefontsynonym [OptimaItalic]               [file:OptimaNovaLT-Italic]
+      \definefontsynonym [OptimaBold]                 [file:OptimaNovaLT-Medium]
+      \definefontsynonym [OptimaBoldCaps]             [file:OptimaNovaLT-MediumSC]
+      \definefontsynonym [OptimaBoldItalic]           [file:OptimaNovaLT-MediumItalic]
+    \stoptypescript
+
+    \starttypescript [sans][minion-optima]
+     \setups[font:fallback:Sans]
+     \usetypescript[Sans][fallback]
+      \definefontsynonym [Sans]                   [OptimaRoman*default]
+      \definefontsynonym [SansCaps]               [OptimaRomanCaps*default]
+      \definefontsynonym [SansItalic]             [OptimaItalic*default]
+      \definefontsynonym [SansBold]               [OptimaBold*default]
+      \definefontsynonym [SansBoldCaps]           [OptimaBoldCaps*default]
+      \definefontsynonym [SansBoldItalic]         [OptimaBoldItalic*default]
+    \stoptypescript
+
+\stoptypescriptcollection
+
+\starttypescript [MinionOptima]
+\definetypeface[MinionOptima][rm][serif][minion-optima][default,protusion=ptbr]
+\definetypeface[MinionOptima][ss][sans][minion-optima][default]
+\stoptypescript
